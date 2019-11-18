@@ -8,7 +8,7 @@ __author__ = 'Hans Ekkehard Plesser'
 __email__ = 'hans.ekkehard.plesser@nmbu.no'
 
 
-import snakes_simulation as cs
+import chutes_simulation as cs
 import pytest
 
 
