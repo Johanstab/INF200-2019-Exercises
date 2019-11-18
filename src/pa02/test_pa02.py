@@ -124,10 +124,13 @@ class TestResilientPlayer:
             assert player.position not in board.snakes_and_ladders.keys()
 
 
-class Simulation:
-    def test_simulations(self):
+def test_simulations_players_per_type():
 
-        sim = cs.Simulation([Player, Player, ResilientPlayer, ResilientPlayer,
-                             ResilientPlayer, LazyPlayer],
-                            randomize_players=False)
-        assert
+    sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer, cs.LazyPlayer,
+                         cs.ResilientPlayer, cs.ResilientPlayer],
+                        randomize_players=False)
+
+    sim.run_simulation(5)
+
+    assert sim.players_per_type() == {'ResilientPlayer': 2,
+                                      'LazyPlayer': 2, 'Player': 2}
