@@ -122,3 +122,12 @@ class TestResilientPlayer:
         for step in range(50):
             player.move()
             assert player.position not in board.snakes_and_ladders.keys()
+
+
+class Simulation:
+    def test_simulations(self):
+
+        sim = cs.Simulation([Player, Player, ResilientPlayer, ResilientPlayer,
+                             ResilientPlayer, LazyPlayer],
+                            randomize_players=False)
+        assert
