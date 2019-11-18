@@ -259,11 +259,18 @@ class Simulation:
         players_dic = {}
 
         for player_type in frozenset(self.players):
-            players_dic = {
-                player_type.__name__: self.players.count(player_type)}
+            players_dic.update({
+                player_type.__name__: self.players.count(player_type)})
 
         return players_dic
 
 
 if __name__ == '__main__':
-    pass
+
+    sim = Simulation([Player, Player, LazyPlayer, ResilientPlayer])
+    print(sim.single_game())
+
+    sim.run_simulation(5)
+    print(sim.players_per_type())
+
+
