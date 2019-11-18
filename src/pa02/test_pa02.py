@@ -124,26 +124,47 @@ class TestResilientPlayer:
             assert player.position not in board.snakes_and_ladders.keys()
 
 
-def test_simulations_players_per_type():
+class TestSimulation:
 
-    sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer, cs.LazyPlayer,
-                         cs.ResilientPlayer, cs.ResilientPlayer],
-                        randomize_players=False)
+    def test_simulations_players_per_type(self):
+        sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
+                             cs.LazyPlayer, cs.ResilientPlayer,
+                             cs.ResilientPlayer], randomize_players=False)
 
-    sim.run_simulation(5)
+        sim.run_simulation(5)
 
-    assert sim.players_per_type() == {'ResilientPlayer': 2,
-                                      'LazyPlayer': 2, 'Player': 2}
+        assert sim.players_per_type() == {'ResilientPlayer': 2,
+                                          'LazyPlayer': 2, 'Player': 2}
 
+    def test_simulations_single_game(self):
+        sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
+                             cs.LazyPlayer, cs.ResilientPlayer,
+                             cs.ResilientPlayer], randomize_players=False)
+        run = sim.single_game()
 
-def test_simulations_single_game():
+        assert run == (15, 'LazyPlayer')
 
-    sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer, cs.LazyPlayer,
-                         cs.ResilientPlayer, cs.ResilientPlayer],
-                        randomize_players=False)
-    run = sim.single_game()
+    def test_simulations_get_results(self):
+        sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
+                             cs.LazyPlayer, cs.ResilientPlayer,
+                             cs.ResilientPlayer], randomize_players=False)
 
-    assert run == (15, 'LazyPlayer')
+        sim.run_simulation(5)
 
-def test_simulations_
+        results = sim.get_results()
 
+        assert results == [(15, 'LazyPlayer'), (6, 'LazyPlayer'),
+                           (21, 'ResilientPlayer'), (13, 'Player'),
+                           (5, 'Player')]
+
+    def test_simulations_durations_per_type(self):
+        sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
+                             cs.LazyPlayer, cs.ResilientPlayer,
+                             cs.ResilientPlayer], randomize_players=False)
+
+        sim.run_simulation(5)
+
+        durations = sim.durations_per_type()
+
+        assert durations == {'Player': [13, 5], 'ResilientPlayer': [21],
+                             'LazyPlayer': [15, 6]}

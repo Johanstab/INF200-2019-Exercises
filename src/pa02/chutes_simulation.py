@@ -267,12 +267,10 @@ class Simulation:
 
 if __name__ == '__main__':
 
-    sim = Simulation([Player, Player, LazyPlayer, LazyPlayer, ResilientPlayer,
-                      ResilientPlayer],
+    sim = Simulation([Player, Player, LazyPlayer, LazyPlayer,
+                      ResilientPlayer, ResilientPlayer],
                      randomize_players=False)
-    print(sim.single_game())
 
     sim.run_simulation(5)
-    print(sim.players_per_type())
 
-
+    print(sim.durations_per_type())
