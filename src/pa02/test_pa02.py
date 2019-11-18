@@ -134,3 +134,16 @@ def test_simulations_players_per_type():
 
     assert sim.players_per_type() == {'ResilientPlayer': 2,
                                       'LazyPlayer': 2, 'Player': 2}
+
+
+def test_simulations_single_game():
+
+    sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer, cs.LazyPlayer,
+                         cs.ResilientPlayer, cs.ResilientPlayer],
+                        randomize_players=False)
+    run = sim.single_game()
+
+    assert run == (15, 'LazyPlayer')
+
+def test_simulations_
+
