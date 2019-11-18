@@ -162,7 +162,7 @@ class LazyPlayer(Player):
 
 class Simulation:
     def __init__(self, player_field, board=None,
-                 seed=1234567, randomize_players=False,
+                 seed=1, randomize_players=False,
                  ):
         """
 
