@@ -18,7 +18,14 @@ class Board:
     goal = 90
 
     def __init__(self, snakes=None, ladders=None, goal=None):
+        """
 
+        Parameters
+        ----------
+        snakes
+        ladders
+        goal
+        """
         if ladders is None:
             ladders = Board.ladders
         if snakes is None:
@@ -33,9 +40,29 @@ class Board:
                                    end in snakes + ladders}
 
     def goal_reached(self, position):
+        """
+
+        Parameters
+        ----------
+        position
+
+        Returns
+        -------
+
+        """
         return position >= self.goal
 
     def position_adjustment(self, position):
+        """
+
+        Parameters
+        ----------
+        position
+
+        Returns
+        -------
+
+        """
         new_position = self.snakes_and_ladders.get(position, position)
 
         return new_position - position
@@ -44,11 +71,23 @@ class Board:
 class Player:
 
     def __init__(self, board):
+        """
+
+        Parameters
+        ----------
+        board
+        """
         self.board = board
         self.position = 0
         self.number_of_moves = 0
 
     def move(self):
+        """
+
+        Returns
+        -------
+
+        """
         roll = random.randint(1, 6)
 
         self.position += roll
@@ -59,13 +98,24 @@ class Player:
 class ResilientPlayer(Player):
 
     def __init__(self, board, extra_steps=1):
+        """
 
+        Parameters
+        ----------
+        board
+        extra_steps
+        """
         super().__init__(board)
         self.plus_step = extra_steps
         self.fell_down = False
 
     def move(self):
+        """
 
+        Returns
+        -------
+
+        """
         if self.fell_down:
             extra = self.plus_step
         else:
@@ -74,18 +124,30 @@ class ResilientPlayer(Player):
         roll = random.randint(1, 6)
 
         self.position += roll + extra
-        self.position = self.board.position_adjustment(self.position)
+        self.position += self.board.position_adjustment(self.position)
         self.number_of_moves += 1
 
 
 class LazyPlayer(Player):
     def __init__(self, board, dropped_steps=1):
+        """
+
+        Parameters
+        ----------
+        board
+        dropped_steps
+        """
         super().__init__(board)
         self.minus_step = dropped_steps
         self.climbed = False
 
     def move(self):
+        """
 
+        Returns
+        -------
+
+        """
         if self.climbed:
             extra = self.minus_step
         else:
@@ -94,29 +156,44 @@ class LazyPlayer(Player):
         roll = random.randint(1, 6)
 
         self.position += roll + extra
-        self.position = self.board.position_adjustment(self.position)
+        self.position += self.board.position_adjustment(self.position)
         self.number_of_moves += 1
 
 
 class Simulation:
     def __init__(self, player_field, board=None,
-                 seed=1, randomize_players=False,
+                 seed=1234567, randomize_players=False,
                  ):
+        """
 
+        Parameters
+        ----------
+        player_field
+        board
+        seed
+        randomize_players
+        """
         if board is None:
             self.board = Board()
         else:
             self.board = board
+
         self.player_types = frozenset(c.__name__ for c in player_field)
         self.players = player_field
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
         self.results = []
 
-        if self.randomize_players is True:
+        if self.randomize_players:
             random.shuffle(self.players)
 
     def single_game(self):
+        """
+
+        Returns
+        -------
+
+        """
         players = [player(self.board) for player in self.players]
         while True:
             for player in players:
@@ -125,16 +202,36 @@ class Simulation:
                     return player.number_of_moves, type(player).__name__
 
     def run_simulation(self, number_of_games):
+        """
 
+        Parameters
+        ----------
+        number_of_games
+
+        Returns
+        -------
+
+        """
         for _ in range(number_of_games):
             self.results.append(self.single_game())
 
     def get_results(self):
+        """
+
+        Returns
+        -------
+
+        """
         return self.results
 
     def winners_per_type(self):
+        """
 
-        winners_type = list(zip(self.results))[1]
+        Returns
+        -------
+
+        """
+        winners_type = list(zip(*self.results))[1]
 
         winners_type_dict = {player_type: winners_type.count(player_type)
                              for player_type in self.player_types}
@@ -142,15 +239,23 @@ class Simulation:
         return winners_type_dict
 
     def durations_per_type(self):
+        """
 
-        return {
-                player_type: [duration for duration, p_type in self.results if
-                              p_type == self.player_types] for player_type in
-                self.player_types
-                }
+        Returns
+        -------
+
+        """
+        return {player_type: [duration for duration, p_type in self.results if
+                              p_type == player_type] for player_type in
+                self.player_types}
 
     def players_per_type(self):
-        
+        """
+
+        Returns
+        -------
+
+        """
         players_dic = {}
 
         for player_type in frozenset(self.players):
