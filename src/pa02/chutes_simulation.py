@@ -184,7 +184,7 @@ class Simulation:
         self.randomize_players = randomize_players
         self.results = []
 
-        if self.randomize_players:
+        if self.randomize_players is True:
             random.shuffle(self.players)
 
     def single_game(self):
@@ -267,7 +267,9 @@ class Simulation:
 
 if __name__ == '__main__':
 
-    sim = Simulation([Player, Player, LazyPlayer, ResilientPlayer])
+    sim = Simulation([Player, Player, LazyPlayer, LazyPlayer, ResilientPlayer,
+                      ResilientPlayer],
+                     randomize_players=False)
     print(sim.single_game())
 
     sim.run_simulation(5)
