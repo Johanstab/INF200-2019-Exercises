@@ -21,13 +21,21 @@ class Board:
     goal = 90
 
     def __init__(self, snakes=None, ladders=None, goal=None):
-        """
+        """This function generates the board that going to be used in the
+        game of snakes and ladders.
+
         Parameters
         ----------
-        snakes : List of tuples that represents the snakes
-        ladders : List of tuples that represents the ladders
-        goal : The end square
+        snakes: The "snakes" that should be used in the board. If none is
+                given, we use default "snakes". Snakes make the player go down.
+
+        ladders: The "ladders" that should be used in the board. If none is
+                given, we use default "ladders". Ladders make player go up.
+
+        goal: The value that the player needs to reach to win the game. The
+            game stops after o ne player reaches goal.
         """
+
         if ladders is None:
             ladders = Board.ladders
         if snakes is None:
@@ -45,9 +53,10 @@ class Board:
         """
         Parameters
         ----------
-        position : The players position
+        position: The current position of the player
 
-        Returns
+        Returns: Returns True if the position of the player have reached
+                goal or passed goal
         -------
         True if position is greater than end destination(goal)
         """
@@ -61,7 +70,7 @@ class Board:
 
         Parameters
         ----------
-        position : The player position
+        position: The current position of the player
 
         Returns
         -------
@@ -256,10 +265,12 @@ class Simulation:
 
 if __name__ == '__main__':
 
+    print(f'Simulation: Normal board, 6 players')
     sim = Simulation([Player, Player, LazyPlayer, LazyPlayer,
                       ResilientPlayer, ResilientPlayer],
                      randomize_players=False)
 
     sim.run_simulation(5)
-
     print(sim.durations_per_type())
+    print(sim.get_results())
+    print(sim.players_per_type())
