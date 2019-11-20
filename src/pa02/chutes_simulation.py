@@ -55,7 +55,7 @@ class Board:
         ----------
         position: The current position of the player
 
-        Returns: Returns True if the position of the player have reached
+        return: Returns True if the position of the player have reached
                 goal or passed goal
         -------
         True if position is greater than end destination(goal)
