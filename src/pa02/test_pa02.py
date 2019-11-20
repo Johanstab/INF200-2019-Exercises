@@ -8,7 +8,11 @@ __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
 
 class TestPlayer:
+    """Tests for Player class"""
+
     def test_move(self):
+        """Tests if the players in Player Class takes the right amounts of
+        moves"""
 
         board = cs.Board()
         player = cs.Player(board)
@@ -18,6 +22,8 @@ class TestPlayer:
         assert player.number_of_moves == 10
 
     def test_position(self):
+        """Tests that the player actually moves, when function move is
+        called upon. So start position can not be equal to end position  """
 
         board = cs.Board()
         player = cs.Player(board)
@@ -28,6 +34,8 @@ class TestPlayer:
         assert start_pos is not end_pos
 
     def test_position_not_equal_one(self):
+        """Test that the players position is not less than 1 after moving,
+        since this is not possible"""
 
         board = cs.Board()
         player = cs.Player(board)
@@ -37,6 +45,9 @@ class TestPlayer:
             assert 1 <= player.position
 
     def test_start_of_chute(self):
+        """Test that the players position can´t be the start point of a
+        snake or a ladder, since the player is supposed to interact with
+        these. """
 
         board = cs.Board()
         player = cs.ResilientPlayer(board)
@@ -47,6 +58,11 @@ class TestPlayer:
 
 
 class TestLazyPlayer:
+    """Tests for LazyPlayer class
+    The following test, has the same function as those in Player class. The
+    only different is that the test for LazyPlayer. Therefore the follow the
+    same docstrings as in Player class, and I will not be repeated"""
+
     def test_move(self):
 
         board = cs.Board()
@@ -86,6 +102,12 @@ class TestLazyPlayer:
 
 
 class TestResilientPlayer:
+    """Tests for ResilientPlayer class
+    The following test, has the same function as those in Player class. The
+    only different is that the test for ResilientPlayer. Therefore the
+    follow the same docstrings as in Player class, and I will not be
+    repeated"""
+
     def test_move(self):
 
         board = cs.Board()
@@ -125,8 +147,11 @@ class TestResilientPlayer:
 
 
 class TestSimulation:
+    """Test for Simulation class"""
 
     def test_simulations_players_per_type(self):
+        """Test if players_per_type returns the right kind of value"""
+
         sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
                              cs.LazyPlayer, cs.ResilientPlayer,
                              cs.ResilientPlayer], randomize_players=False)
@@ -137,6 +162,8 @@ class TestSimulation:
                                           'LazyPlayer': 2, 'Player': 2}
 
     def test_simulations_single_game(self):
+        """Test if single_game returns the right kind of value"""
+
         sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
                              cs.LazyPlayer, cs.ResilientPlayer,
                              cs.ResilientPlayer], randomize_players=False)
@@ -145,6 +172,8 @@ class TestSimulation:
         assert run == (15, 'LazyPlayer')
 
     def test_simulations_get_results(self):
+        """Test if get_results returns right kind of value"""
+
         sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
                              cs.LazyPlayer, cs.ResilientPlayer,
                              cs.ResilientPlayer], randomize_players=False)
@@ -158,6 +187,8 @@ class TestSimulation:
                            (5, 'Player')]
 
     def test_simulations_durations_per_type(self):
+        """Test if durations_per_type returns the right value"""
+
         sim = cs.Simulation([cs.Player, cs.Player, cs.LazyPlayer,
                              cs.LazyPlayer, cs.ResilientPlayer,
                              cs.ResilientPlayer], randomize_players=False)
