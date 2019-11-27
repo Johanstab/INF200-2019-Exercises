@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from unittest import mock
 
 import pytest
+import numpy as np
 
 import logistic_regression as lr
 
@@ -72,7 +73,7 @@ def patch_with_mock(container, name):
         The name of the object to patch
     Examples
     --------
-    >>> import numpy as np
+    # >>> import numpy as np
     ... with patch_with_mock(np, 'array'):
     ...     a = np.array([1])
     ...     np.array.call_count  # -> 1

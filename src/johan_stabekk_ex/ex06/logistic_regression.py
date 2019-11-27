@@ -142,13 +142,12 @@ def sigmoid(z):
     sigmoidal_transformed_z : np.ndarray
         Transformed input.
     """
-    z = np.linspace(z)
     sigmoidal_transformed_z = 1/(1 + np.exp(-z))
     return sigmoidal_transformed_z
 
 
 def predict_proba(coef, X):
-    r"""Predict the class probabilities for each data point in :math:`X`.
+    """Predict the class probabilities for each data point in :math:`X`.
     Estimate which class each data point in X corresponds to. This is done
     according to the following formula.
     .. math::
@@ -168,12 +167,13 @@ def predict_proba(coef, X):
     p : np.ndarray(shape(n,))
         The predicted class probabilities.
     """
-    # Your code here
-    pass
+    new_array = X.dot(coef)
+    p = sigmoid(new_array)
+    return p
 
 
 def logistic_gradient(coef, X, y):
-    r"""Returns the gradient of a logistic regression model.
+    """Returns the gradient of a logistic regression model.
     The gradient is given by
     .. math::
         \nabla_w L(\mathbf{w}; X, \mathbf{y}) = \sum_i \mathbf{x}_i (y_i - \hat{y}_i),
@@ -198,8 +198,8 @@ def logistic_gradient(coef, X, y):
         The gradient of the cross entropy loss related to the linear
         logistic regression model.
     """
-    # Your code here
-    pass
+    gradient = np.dot(X.T, (predict_proba(coef, X)-y))
+    return gradient
 
 
 class LogisticRegression(BaseEstimator, ClassifierMixin):
@@ -252,11 +252,13 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         random_state : np.random.random_state or int or None (default=None)
             A numpy random state object or a seed for a numpy random state object.
         """
-        # Your code here
-        pass
+        self.max_iter = max_iter
+        self.tol = tol
+        self.learning_rate = learning_rate
+        self.random_state = random_state
 
     def _has_converged(self, coef, X, y):
-        r"""Whether the gradient descent algorithm has converged.
+        """Whether the gradient descent algorithm has converged.
         Returns True if the norm of the gradient is smaller than ``self.tol``,
         mathematically, that is
         .. math::
@@ -278,11 +280,10 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         has_converged : bool
             True if the convergence criteria above is met, False otherwise.
         """
-        # Your code here
-        pass
+        return np.linalg.norm(logistic_gradient(coef, X, y)) < self.tol
 
     def _fit_gradient_descent(self, coef, X, y):
-        r"""Fit the logisitc regression model to the data given initial weights
+        """Fit the logisitc regression model to the data given initial weights
         Gradient descent works by iteratively applying the following update
         rule
         .. math::
@@ -309,8 +310,10 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
         coef : np.ndarray(shape=(n,))
             The logistic regression weights
         """
-        # Your code here
-        pass
+        for i in range(self.max_iter):
+            coef = self.learning_rate * logistic_gradient(coef, X, y)
+            if self._has_converged(coef, X, y):
+                return coef
 
     def fit(self, X, y):
         """Fit a logistic regression model to the data.
@@ -395,7 +398,8 @@ if __name__ == "__main__":
 
     # Fit a logistic regression model to the X and y vector
     # Fill in your code here.
-    # Create a logistic regression object and fit it to the dataset
+    lr_model = LogisticRegression()
+    lr_model.fit(X, y)
 
     # Print performance information
     print(f"Accuracy: {lr_model.score(X, y)}")
