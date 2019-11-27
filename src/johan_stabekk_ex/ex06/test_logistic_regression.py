@@ -6,7 +6,6 @@ __email__ = 'johansta@nmbu.no'
 from contextlib import contextmanager
 from unittest import mock
 
-import numpy as np
 import pytest
 
 import logistic_regression as lr
