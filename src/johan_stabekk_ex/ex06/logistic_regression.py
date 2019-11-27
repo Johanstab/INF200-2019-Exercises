@@ -125,6 +125,7 @@ import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 from sklearn.utils import check_random_state, check_X_y
+from sklearn.linear_model import LinearRegression
 
 
 def sigmoid(z):
@@ -167,8 +168,8 @@ def predict_proba(coef, X):
     p : np.ndarray(shape(n,))
         The predicted class probabilities.
     """
-    new_array = X.dot(coef)
-    p = sigmoid(new_array)
+
+    p = sigmoid(X @ coef)
     return p
 
 
@@ -198,7 +199,7 @@ def logistic_gradient(coef, X, y):
         The gradient of the cross entropy loss related to the linear
         logistic regression model.
     """
-    gradient = np.dot(X.T, (predict_proba(coef, X)-y))
+    gradient = (X.T @ (predict_proba(coef, X)-y))
     return gradient
 
 
@@ -333,7 +334,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
 
         # A random state is a random number generator, akin to those
         # you made in earlier coursework. It has all functions of
-        # np.ranom, but its sequence of random numbers is not affected
+        # np.random, but its sequence of random numbers is not affected
         # by calls to np.random.
         random_state = check_random_state(self.random_state)
         coef = random_state.standard_normal(X.shape[1])
@@ -393,7 +394,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
 if __name__ == "__main__":
     # Simulate a random dataset
     X = np.random.standard_normal((100, 5))
-    coef = np.random.standard_normal(5)
+    coef = np.random.standard_normal(5,)
     y = predict_proba(coef, X) > 0.5
 
     # Fit a logistic regression model to the X and y vector
