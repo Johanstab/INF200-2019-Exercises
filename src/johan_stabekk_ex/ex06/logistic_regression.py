@@ -312,7 +312,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
             The logistic regression weights
         """
         for i in range(self.max_iter):
-            coef += self.learning_rate * logistic_gradient(coef, X, y)
+            coef -= self.learning_rate * logistic_gradient(coef, X, y)
             if self._has_converged(coef, X, y):
                 break
         return coef
